@@ -25,7 +25,6 @@
 
 rootProject.name = "Legacy Plugins"
 
-include(":javaexample")
 include(":spammer")
 include(":staking")
 include(":playerindicatorssnipelist")
