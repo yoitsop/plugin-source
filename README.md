@@ -1,31 +1,26 @@
-# OpenOSRS-external-example
+PLUGINS
 
-You can use this repository as base for your external plugins, and host it on GitHub to make your external plugins available for everybody through the external manager plugin panel in the OpenOSRS client.
+Clan Wars Arena:
 
-This has been updated for the new OPRS client version 4.0+.
+Phoenix Necklace Break sound
+Displays a notifcation upon challenge request
+Displays a timer with the remaining countdown until a round starts
+Displays a timer of when you're able to use overheads when an opponent uses a dragon scimitar special attack
+Keypress Spammer:
 
-First of all you need to build the client (refer to the steps in this [guide][1])
-After building you need to upload all the artifacts to your local maven repository.
-You can do this within intellij by going to the gradle panel at the right hand side and click on OpenOSRS -> Tasks -> publishing -> publishToMavenLocal
+Message spammer: Configure a keybind to send a desired message upon keypress
+Pile Spammer: Configure a keybind to send a message with your clans prefix + current targets username
+Smaller Pile Names: Use the first four characters of a targets name for the pile spammer
+Staking:
 
-In this repository you'll find two examples one is written in kotlin and the other one is written in java.
-Before you start you need to make a couple changes:
+Highlights weapons that are commonly used to scam in the opponents inventory when in the challenge menu
+Notifies you upon duel request
+Player Indicators Extended:
 
-1. Go to the file "build.gradle.kts" in the main folder
-2. Change the value of "project.extra["GithubUrl"]" to your github name and repository (only needed if you want to upload the plugins)
-3. Change the value of "project.extra["PluginProvider"]" to your name or your alias.
-4. Change the value of "project.extra["ProjectSupportUrl"]" to your discord channel or leave it empty.
+An additional snipelist added to the default Player Indicators Extended plugin
+RSN-Hider
 
-The file "{project}/{projectname}.gradle.kts" (for example "javaexample/javaexample.gradle.kts") has two values you'll need to change "project.extra["PluginName"]" and "project.extra["PluginDescription"]"
+Set a custom RSN that is visible on your clients chat (Ported from RL-HUB)
 
-After building your project you can find the plugin jar in the build/libs folder of that project.
-This jar can be used directly by copying it into the "plugins" folder in the ".openosrs" directory: `USER/.openosrs/plugins`.
+![image](https://user-images.githubusercontent.com/51583993/113544537-7685d180-95b6-11eb-9127-809d37e65103.png)
 
-If you want to bootstrap your plugins to make them available on GitHub you can just easily run the following task from the gradle panel in intellij Tasks -> other -> bootstrapPlugin
-This will copy your plugin to the release folder in the main directory and fill the plugins.json file with the needed information.
-
-You should always run the clean task before running the bootstrapPlugins task!
-Before bootstrapping make sure you've changed the version number of your project, duplicate version numbers are not allowed and the bootstrap task will fail.
-
-
-[1]: https://github.com/open-osrs/runelite/wiki/Building-with-IntelliJ-IDEA
