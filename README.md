@@ -6,9 +6,8 @@ Clan Wars Arena:
 - Displays a notifcation upon challenge request
 - Displays a timer with the remaining countdown until a round starts
 - Displays a timer of when you're able to use overheads when an opponent uses a dragon scimitar special attack
-- Keypress Spammer:
 
-Message spammer: 
+Keypress Message spammer: 
 - Configure a keybind to send a desired message upon keypress
 - Pile Spammer: Configure a keybind to send a message with your clans prefix + current targets username
 - Smaller Pile Names: Use the first four characters of a targets name for the pile spammer
