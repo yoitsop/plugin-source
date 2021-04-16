@@ -26,6 +26,7 @@
 rootProject.name = "Legacy Plugins"
 
 include(":spammer")
+include(":leftclickcast")
 include(":staking")
 include(":playerindicatorssnipelist")
 include(":customrsnswapper")

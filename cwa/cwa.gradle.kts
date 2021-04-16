@@ -25,7 +25,7 @@ import ProjectVersions.openosrsVersion
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "1.0.8"
+version = "1.0.9"
 
 project.extra["PluginName"] = "Clan Wars"
 project.extra["PluginDescription"] = "Plugins for Clan Wars Arena"
