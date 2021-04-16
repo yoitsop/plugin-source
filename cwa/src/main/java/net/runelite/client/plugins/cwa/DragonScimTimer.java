@@ -41,4 +41,12 @@ class DragonScimTimer extends Timer
         }
         return Color.WHITE;
     }
+
+    public long getTimeLeft()
+    {
+        Duration timeLeft = Duration.between(Instant.now(), getEndTime());
+
+        return timeLeft.getSeconds();
+    }
+
 }

@@ -54,6 +54,15 @@ public interface CwaConfig extends Config
 	}
 
 	@ConfigItem(
+			keyName = "showCwaNofifs",
+			name = "Challenge Notifications",
+			description = "Displays a notification when your clan receives or accepts a CWA Challenge",
+			position = 2,
+			section = notificationSection
+	)
+	default boolean showCwaNotifs(){return true;}
+
+	@ConfigItem(
 			keyName = "showScimTimer",
 			name = "Dragon Scim Timer",
 			description = "Displays a countdown of when you're able to use overheads",
@@ -66,16 +75,32 @@ public interface CwaConfig extends Config
 	}
 
 	@ConfigItem(
-			keyName = "showCwaNofifs",
-			name = "Challenge Notifications",
-			description = "Displays a notification when your clan receives or accepts a CWA Challenge",
-			position = 2,
+			keyName = "showScimOverlay",
+			name = "Dragon Scim Border Overlay",
+			description = "Displays an overlay that will disappear when you're able to use overheads",
+			position = 4,
 			section = notificationSection
 	)
-	default boolean showCwaNotifs(){return true;}
+	default boolean showScimOverLay()
+	{
+		return true;
+	}
+
 
 	@ConfigItem(
-			position = 4,
+			position = 5,
+			keyName = "dragonScimSpecSound",
+			name = "Dragon Scim Spec Noise",
+			description = "play a sound when a dragon scim spec has been used on you",
+			section = notificationSection
+	)
+	default boolean dScimSound()
+	{
+		return false;
+	}
+
+	@ConfigItem(
+			position = 6,
 			keyName = "pneckBreak",
 			name = "Phoenix Necklace Break Noise",
 			description = "play a sound when your pneck breaks",
@@ -90,10 +115,28 @@ public interface CwaConfig extends Config
 			max = VOLUME_MAX
 	)
 	@ConfigItem(
+			keyName = "scimVolume",
+			name = "Scim Spec Volume",
+			description = "Configures the volume of the scim sound. A value of 0 will disable tick sounds.",
+			position = 7,
+			section = notificationSection
+	)
+	default int dScimSpecVolume()
+	{
+		return SoundEffectVolume.MEDIUM_HIGH;
+	}
+
+
+
+
+	@Range(
+			max = VOLUME_MAX
+	)
+	@ConfigItem(
 			keyName = "neckVolume",
 			name = "Necklace Volume",
 			description = "Configures the volume of the break sound. A value of 0 will disable tick sounds.",
-			position = 5,
+			position = 8,
 			section = notificationSection
 	)
 	default int neckBreakVolume()

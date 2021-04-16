@@ -33,6 +33,7 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.*;
 import net.runelite.api.events.ChatMessage;
+import net.runelite.api.events.GameTick;
 import net.runelite.api.events.PlayerDespawned;
 import net.runelite.api.events.PlayerSpawned;
 import net.runelite.api.kit.KitType;
@@ -42,6 +43,7 @@ import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.game.ItemManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
+import net.runelite.client.ui.overlay.OverlayManager;
 import net.runelite.client.ui.overlay.infobox.InfoBoxManager;
 import java.util.Objects;
 import org.pf4j.Extension;
@@ -89,6 +91,12 @@ public class CwaPlugin extends Plugin
 	@Inject
 	private InfoBoxManager infoBoxManager;
 
+	@Inject
+	private OverlayManager overlayManager;
+
+	@Inject
+	private DragonScimOverlay overlay;
+
 	@Provides
 	CwaConfig provideConfig(ConfigManager configManager)
 	{
@@ -102,6 +110,14 @@ public class CwaPlugin extends Plugin
 		if ( chatMessage.getMessage().contains(DRAGON_SCIM_MESSAGE) && config.showScimTimer() )
 		{
 			createScimTimer();
+			if (config.showScimOverLay())
+			{
+				overlayManager.add(overlay);
+			}
+			if (config.dScimSound())
+			{
+				client.playSoundEffect(SoundEffectID.MINING_TINK, config.dScimSpecVolume());
+			}
 		}
 		if ( chatMessage.getMessage().contains(PHOENIX_NECKLACE_BREAK) && config.pneckBreak() )
 		{
@@ -122,49 +138,13 @@ public class CwaPlugin extends Plugin
 		}
 	}
 
-
-/*
-	private void updatePlayers()
-	{
-		friendlyPlayerCount = 0;
-		nRangePlayerCount = 0;
-		magePlayerCount = 0;
-
-		for (Player p : client.getPlayers())
+	@Subscribe
+	public void onGameTick(GameTick event) {
+		if ( scimTimer != null && scimTimer.getTimeLeft() == 0)
 		{
-			if (Objects.nonNull(p))
-			{
-				if (p.isFriendsChatMember())
-				{
-					friendlyPlayerCount++;
-					if ( p.getPlayerComposition().getEquipmentId(KitType.CAPE) == ItemID.IMBUED_ZAMORAK_CAPE || p.getPlayerComposition().getEquipmentId(KitType.CAPE) == ItemID.IMBUED_SARADOMIN_CAPE || p.getPlayerComposition().getEquipmentId(KitType.CAPE) == ItemID.IMBUED_GUTHIX_CAPE || p.getPlayerComposition().getEquipmentId(KitType.LEGS) == ItemID.ZAMORAK_MONK_BOTTOM)  {
-						magePlayerCount++;
-					}
-					else if (p.getPlayerComposition().getEquipmentId(KitType.CAPE) == ItemID.FIRE_CAPE || p.getPlayerComposition().getEquipmentId(KitType.CAPE) == ItemID.INFERNAL_CAPE ||  p.getPlayerComposition().getEquipmentId(KitType.LEGS) == ItemID.GREEN_DHIDE_CHAPS ||  p.getPlayerComposition().getEquipmentId(KitType.LEGS) == ItemID.GREEN_DHIDE_CHAPS_G ||  p.getPlayerComposition().getEquipmentId(KitType.LEGS) == ItemID.GREEN_DHIDE_CHAPS_T)
-					{
-						nRangePlayerCount++;
-					}
-				}
-			}
+			overlayManager.remove(overlay);
 		}
-
-		//config change ( won't repaint unless config panel is reopened
-		configManager.setConfiguration("clanwars", "ccCount", friendlyPlayerCount);
-		configManager.setConfiguration("clanwars", "mageCount", magePlayerCount);
-		configManager.setConfiguration("clanwars", "nRangeCount", nRangePlayerCount);
 	}
-	@Subscribe
-	private void onPlayerSpawned(PlayerSpawned event)
-	{
-		updatePlayers();
-	}
-
-	@Subscribe
-	private void onPlayerDespawned(PlayerDespawned event)
-	{
-		updatePlayers();
-	}*/
-
 	private void createCWATimer()
 	{
 		cwaTimer = new CwaTimer(this, itemManager);
@@ -176,5 +156,4 @@ public class CwaPlugin extends Plugin
 		scimTimer = new DragonScimTimer(this, itemManager);
 		infoBoxManager.addInfoBox(scimTimer);
 	}
-
 }
