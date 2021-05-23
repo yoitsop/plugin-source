@@ -78,12 +78,44 @@ public class SpammerPlugin extends Plugin
 		return configManager.getConfig(SpammerConfig.class);
 	}
 
-	private final HotkeyListener messagehotkeyListener = new HotkeyListener(() -> config.msgkeybind())
+	private final HotkeyListener messageOneHotkeyListener = new HotkeyListener(() -> config.msgOneKeybind())
 	{
 		@Override
 		public void hotkeyPressed()
 		{
-			sendSpam();
+			String messageOne = config.messageOne();
+
+			if (!messageOne.equals(""))
+			{
+				sendMessage(messageOne);
+			}
+		}
+	};
+
+	private final HotkeyListener messageTwoHotkeyListener = new HotkeyListener(() -> config.msgTwoKeybind())
+	{
+		@Override
+		public void hotkeyPressed()
+		{
+			String messageTwo = config.messageTwo();
+
+			if (!messageTwo.equals(""))
+			{
+				sendMessage(messageTwo);
+			}
+		}
+	};
+
+	private final HotkeyListener messageThreeHotkeyListener = new HotkeyListener(() -> config.msgThreeKeybind())
+	{
+		@Override
+		public void hotkeyPressed()
+		{
+			String messageThree = config.messageThree();
+			if (!messageThree.equals(""))
+			{
+				sendMessage(messageThree);
+			}
 		}
 	};
 
@@ -92,21 +124,29 @@ public class SpammerPlugin extends Plugin
 		@Override
 		public void hotkeyPressed()
 		{
-			spamPileName();
+			if (!opponentName.equals(""))
+			{
+				sendMessage(config.clanPrefix() + " " + opponentName);
+			}
 		}
 	};
 
 	@Override
 	protected void startUp()
 	{
-		keyManager.registerKeyListener(messagehotkeyListener);
+		keyManager.registerKeyListener(messageOneHotkeyListener);
+		keyManager.registerKeyListener(messageTwoHotkeyListener);
+		keyManager.registerKeyListener(messageThreeHotkeyListener);
+
 		keyManager.registerKeyListener(pilehotkeyListener);
 	}
 
 	@Override
 	protected void shutDown()
 	{
-		keyManager.unregisterKeyListener(messagehotkeyListener);
+		keyManager.unregisterKeyListener(messageOneHotkeyListener);
+		keyManager.unregisterKeyListener(messageTwoHotkeyListener);
+		keyManager.unregisterKeyListener(messageThreeHotkeyListener);
 		keyManager.unregisterKeyListener(pilehotkeyListener);
 	}
 
@@ -165,25 +205,5 @@ public class SpammerPlugin extends Plugin
 			client.setVar(VarClientStr.CHATBOX_TYPED_TEXT, oldChat);
 		};
 		clientThread.invoke(r);
-	}
-
-	private void sendSpam()
-	{
-		String message = config.message();
-		if (message.equals(""))
-		{
-			return;
-		}
-		sendMessage(message);
-	}
-
-	private void spamPileName()
-	{
-
-		if (opponentName.equals(""))
-		{
-			return;
-		}
-		sendMessage(config.clanPrefix() + " " + opponentName);
 	}
 }

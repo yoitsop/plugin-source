@@ -48,24 +48,72 @@ public interface SpammerConfig extends Config
 
 	@ConfigItem(
 			keyName = "messageConfig1",
-			position = 0,
+			position = 2,
 			name = "Message One",
 			description = "A message you would like to spam upon keypress",
 			section = keybindSpammer
 	)
-	default String message()
+	default String messageOne()
 	{
 		return "";
 	}
 
 	@ConfigItem(
 			keyName = "keybind1",
-			name = "Message Keybind",
+			name = "Message One Keybind",
 			description = "Configure what button to press to spam",
-			position = 1,
+			position = 3,
 			section = keybindSpammer
 	)
-	default Keybind msgkeybind()
+	default Keybind msgOneKeybind()
+	{
+		return Keybind.NOT_SET;
+	}
+
+	@ConfigItem(
+			keyName = "messageConfig2",
+			position = 4,
+			name = "Message Two",
+			description = "A message you would like to spam upon keypress",
+			section = keybindSpammer
+	)
+	default String messageTwo()
+	{
+		return "";
+	}
+
+	@ConfigItem(
+			keyName = "keybind2",
+			name = "Message Two Keybind",
+			description = "Configure what button to press to spam",
+			position = 5,
+			section = keybindSpammer
+	)
+	default Keybind msgTwoKeybind()
+	{
+		return Keybind.NOT_SET;
+	}
+
+	@ConfigItem(
+			keyName = "messageConfig3",
+			position = 6,
+			name = "Message Three",
+			description = "A message you would like to spam upon keypress",
+			section = keybindSpammer
+	)
+	default String messageThree()
+	{
+		return "";
+	}
+
+	@ConfigItem(
+			keyName = "keybind3",
+			name = "Message Three Keybind",
+			description = "Configure what button to press to spam",
+			position = 7,
+			section = keybindSpammer
+	)
+	default Keybind msgThreeKeybind()
 	{
 		return Keybind.NOT_SET;
 	}

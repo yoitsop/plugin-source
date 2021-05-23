@@ -62,9 +62,9 @@ public class CwaPlugin extends Plugin
 {
 	private static final String DRAGON_SCIM_MESSAGE = "You've been injured and can't use protection prayers!";
 	private static final String PHOENIX_NECKLACE_BREAK = "Your phoenix necklace heals you, but is destroyed in the process.";
-	private static final String CWA_CHALLENGE_REQUEST = "wishes to challenge your clan to a Clan War";
-	private static final String CWA_CHALLENGER_MESSAGE = "Your clan is being invited to join you...";
-	private static final String CWA_CHALLENGE_MESSAGE = "Your clan has initiated a battle! Come to the Clan Wars challenge area to join it.";
+	private static final String CWA_CHALLENGE_REQUEST = "wishes to challenge your chat-channel to a Clan War";
+	private static final String CWA_CHALLENGER_MESSAGE = "Your chat-channel is being invited to join you...";
+	private static final String CWA_CHALLENGE_MESSAGE = "Your chat-channel has initiated a battle! Come to the Clan Wars challenge area to join it.";
 
 
 	private CwaTimer cwaTimer;
