@@ -41,7 +41,7 @@ import net.runelite.api.Point;
 import net.runelite.api.Varbits;
 import net.runelite.api.WorldType;
 import net.runelite.api.kit.KitType;
-import net.runelite.client.game.FriendChatManager;
+import net.runelite.client.game.ChatIconManager;
 import net.runelite.client.ui.overlay.Overlay;
 import net.runelite.client.ui.overlay.OverlayPosition;
 import net.runelite.client.ui.overlay.OverlayPriority;
@@ -55,21 +55,21 @@ public class PlayerIndicatorsExtendedOverlay extends Overlay
 	private static final int ACTOR_HORIZONTAL_TEXT_MARGIN = 10;
 
 	private final BufferedImage agilityIcon = ImageUtil.getResourceStreamFromClass(PlayerIndicatorsExtendedPlugin.class,
-		"agility.png");
+			"agility.png");
 	private final BufferedImage noAgilityIcon = ImageUtil.getResourceStreamFromClass(PlayerIndicatorsExtendedPlugin.class,
-		"no-agility.png");
+			"no-agility.png");
 	private final BufferedImage skullIcon = ImageUtil.getResourceStreamFromClass(PlayerIndicatorsExtendedPlugin.class,
-		"skull.png");
+			"skull.png");
 
 	private final PlayerIndicatorsExtendedPlugin plugin;
 	private final PlayerIndicatorsExtendedConfig config;
 	private final PlayerIndicatorsExtendedService playerIndicatorsExtendedService;
 
 	@Inject
-	private Client client;
+	private Client  client;
 
 	@Inject
-	private FriendChatManager friendChatManager;
+	private ChatIconManager chatIconManager;
 
 	@Inject
 	public PlayerIndicatorsExtendedOverlay(PlayerIndicatorsExtendedPlugin plugin, PlayerIndicatorsExtendedConfig config, PlayerIndicatorsExtendedService playerIndicatorsExtendedService)
@@ -87,7 +87,6 @@ public class PlayerIndicatorsExtendedOverlay extends Overlay
 		playerIndicatorsExtendedService.forEachPlayer((player, playerRelation) -> drawSceneOverlays(graphics, player, playerRelation));
 		return null;
 	}
-
 	private void drawSceneOverlays(Graphics2D graphics, Player actor, PlayerIndicatorsExtendedPlugin.PlayerRelation relation)
 	{
 		if (actor.getName() == null || !plugin.getLocationHashMap().containsKey(relation))
@@ -114,7 +113,7 @@ public class PlayerIndicatorsExtendedOverlay extends Overlay
 			}
 
 			if (config.unchargedGlory() &&
-				actor.getPlayerComposition().getEquipmentId(KitType.AMULET) == ItemID.AMULET_OF_GLORY)
+					actor.getPlayerComposition().getEquipmentId(KitType.AMULET) == ItemID.AMULET_OF_GLORY)
 			{
 				nameSb.append(" (glory)");
 			}
@@ -125,13 +124,13 @@ public class PlayerIndicatorsExtendedOverlay extends Overlay
 
 			if (config.highlightClan() && actor.isFriendsChatMember() && config.showFriendsChatRanks() && relation == PlayerIndicatorsExtendedPlugin.PlayerRelation.CLAN)
 			{
-				if (friendChatManager.getRank(actor.getName()) != null)
+				if (plugin.getRank(actor.getName()) != null)
 				{
-					final BufferedImage clanRankImage = friendChatManager.getRankImage(friendChatManager.getRank(actor.getName()));
+					final BufferedImage clanRankImage = chatIconManager.getRankImage(plugin.getRank(actor.getName()));
 					if (clanRankImage != null)
 					{
 						renderActorTextAndImage(graphics, actor, builtString, color,
-							ImageUtil.resizeImage(clanRankImage, y, y), 0, ACTOR_HORIZONTAL_TEXT_MARGIN);
+								ImageUtil.resizeImage(clanRankImage, y, y), 0, ACTOR_HORIZONTAL_TEXT_MARGIN);
 					}
 				}
 			}
@@ -139,7 +138,7 @@ public class PlayerIndicatorsExtendedOverlay extends Overlay
 			{
 
 				renderActorTextAndImage(graphics, actor, builtString, color,
-					ImageUtil.resizeImage(skullIcon, y, y), ACTOR_OVERHEAD_TEXT_MARGIN, ACTOR_HORIZONTAL_TEXT_MARGIN);
+						ImageUtil.resizeImage(skullIcon, y, y), ACTOR_OVERHEAD_TEXT_MARGIN, ACTOR_HORIZONTAL_TEXT_MARGIN);
 			}
 			else
 			{
@@ -174,29 +173,29 @@ public class PlayerIndicatorsExtendedOverlay extends Overlay
 				{
 
 					final int width = config.showCombatLevel() ? graphics.getFontMetrics().stringWidth(name)
-						+ ACTOR_HORIZONTAL_TEXT_MARGIN : graphics.getFontMetrics().stringWidth(name);
+							+ ACTOR_HORIZONTAL_TEXT_MARGIN : graphics.getFontMetrics().stringWidth(name);
 
 					final int height = graphics.getFontMetrics().getHeight();
 					if (level >= config.agilityFirstThreshold())
 					{
 						OverlayUtil.renderImageLocation(graphics,
-							new Point(textLocation.getX() + 5 + width,
-								textLocation.getY() - height),
-							ImageUtil.resizeImage(agilityIcon, height, height));
+								new Point(textLocation.getX() + 5 + width,
+										textLocation.getY() - height),
+								ImageUtil.resizeImage(agilityIcon, height, height));
 					}
 					if (level >= config.agilitySecondThreshold())
 					{
 						OverlayUtil.renderImageLocation(graphics,
-							new Point(textLocation.getX() + agilityIcon.getWidth() + width,
-								textLocation.getY() - height),
-							ImageUtil.resizeImage(agilityIcon, height, height));
+								new Point(textLocation.getX() + agilityIcon.getWidth() + width,
+										textLocation.getY() - height),
+								ImageUtil.resizeImage(agilityIcon, height, height));
 					}
 					if (level < config.agilityFirstThreshold())
 					{
 						OverlayUtil.renderImageLocation(graphics,
-							new Point(textLocation.getX() + 5 + width,
-								textLocation.getY() - height),
-							ImageUtil.resizeImage(noAgilityIcon, height, height));
+								new Point(textLocation.getX() + 5 + width,
+										textLocation.getY() - height),
+								ImageUtil.resizeImage(noAgilityIcon, height, height));
 					}
 				}
 				else

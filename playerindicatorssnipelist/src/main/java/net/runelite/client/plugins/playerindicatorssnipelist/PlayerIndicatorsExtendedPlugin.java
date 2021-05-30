@@ -59,7 +59,7 @@ import net.runelite.api.util.Text;
 import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
-import net.runelite.client.game.FriendChatManager;
+import net.runelite.client.game.ChatIconManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
 import net.runelite.client.ui.overlay.OverlayManager;
@@ -108,8 +108,7 @@ public class PlayerIndicatorsExtendedPlugin extends Plugin
 	private Client client;
 
 	@Inject
-	@Getter(AccessLevel.NONE)
-	private FriendChatManager friendChatManager;
+	private ChatIconManager chatIconManager;
 
 	@Provides
 	PlayerIndicatorsExtendedConfig provideConfig(ConfigManager configManager)
@@ -236,6 +235,7 @@ public class PlayerIndicatorsExtendedPlugin extends Plugin
 		});
 	}
 */
+
 	@Subscribe
 	private void onMenuEntryAdded(MenuEntryAdded menuEntryAdded)
 	{
@@ -312,10 +312,10 @@ public class PlayerIndicatorsExtendedPlugin extends Plugin
 					color = relationColorHashMap.get(PlayerRelation.CLAN);
 				}
 
-				FriendsChatRank rank = friendChatManager.getRank(player.getName());
+				FriendsChatRank rank = getRank(player.getName());
 				if (rank != UNRANKED)
 				{
-					image = friendChatManager.getIconNumber(rank);
+					image = chatIconManager.getIconNumber(rank);
 				}
 			}
 			else if (config.highlightTeamMembers() && player.getTeam() > 0 && (localPlayer != null ? localPlayer.getTeam() : -1) == player.getTeam())
@@ -594,6 +594,18 @@ public class PlayerIndicatorsExtendedPlugin extends Plugin
 				locationHashMap.put(PlayerRelation.CALLER_TARGET, config.callerTargetHighlightOptions().toArray());
 			}
 		}
+	}
+
+	public FriendsChatRank getRank(String playerName)
+	{
+		final FriendsChatManager friendsChatManager = client.getFriendsChatManager();
+		if (friendsChatManager == null)
+		{
+			return FriendsChatRank.UNRANKED;
+		}
+
+		FriendsChatMember friendsChatMember = friendsChatManager.findByName(playerName);
+		return friendsChatMember != null ? friendsChatMember.getRank() : FriendsChatRank.UNRANKED;
 	}
 
 	public enum MinimapSkullLocations

@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2019-2020, ganom <https://github.com/Ganom>
- * All rights reserved.
- * Licensed under GPL3, see LICENSE for the full scope.
- */
 package net.runelite.client.plugins.externals.leftclickcast;
 
 import com.google.inject.Provides;
@@ -33,7 +28,7 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.EventBus;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.events.ConfigChanged;
-import net.runelite.client.game.FriendChatManager;
+import net.runelite.client.game.ChatIconManager;
 import net.runelite.client.input.KeyManager;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
@@ -43,8 +38,8 @@ import org.pf4j.Extension;
 
 @Extension
 @PluginDescriptor(
-	name = "Left Click Cast Hidden",
-	description = "Casting made even easier."
+		name = "Left Click Cast",
+		description = "Casting made even easier."
 )
 @Slf4j
 @SuppressWarnings("unused")
@@ -63,7 +58,7 @@ public class LeftClickCast extends Plugin
 	private KeyManager keyManager;
 
 	@Inject
-	private FriendChatManager friendsManager;
+	private ChatIconManager friendsManager;
 
 	private final Set<Integer> whitelist = new HashSet<>();
 
@@ -195,8 +190,7 @@ public class LeftClickCast extends Plugin
 		{
 			final String name = Text.standardize(event.getTarget(), true);
 
-			if (!config.disableFriendlyRegionChecks() && (client.getVarbitValue(5314) == 0 && (client.isFriended(name, false) ||
-				friendsManager.isMember(name))))
+			if (!config.disableFriendlyRegionChecks() && (client.getVarbitValue(5314) == 0 && (client.isFriended(name, false))))
 			{
 				return;
 			}
@@ -322,13 +316,13 @@ public class LeftClickCast extends Plugin
 	private void insert(MenuEntry e)
 	{
 		client.insertMenuItem(
-			e.getOption(),
-			e.getTarget(),
-			e.getOpcode(),
-			e.getIdentifier(),
-			e.getParam0(),
-			e.getParam1(),
-			true
+				e.getOption(),
+				e.getTarget(),
+				e.getOpcode(),
+				e.getIdentifier(),
+				e.getParam0(),
+				e.getParam1(),
+				true
 		);
 	}
 
